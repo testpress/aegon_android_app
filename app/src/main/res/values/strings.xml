@@ -3,24 +3,37 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyEllipsis">
 
     <string name="rss_posts">Whats New</string>
+    <string name="txt_sign_fullnme">Full name</string>
+    <string name="txt_hellow_student">Hello Student</string>
 
     <string name="refresh_action">Refresh</string>
-
+    <string name="txt_sign_welcome">Welcome to Aegon</string>
+    <string name="txt_sign_signup_other">You will receive OTP to your register mobile number</string>
+    <string name="txt_sign_signup">Please signup to start your courses</string>
     <string name="error_loading_documents">Loading Documents failed</string>
     <string name="error_loading_orders">Loading Orders failed</string>
     <string name="error_loading_posts">Loading posts failed</string>
     <string name="error_loading_content">Loading content failed</string>
-
+    <string name="txt_sign_email">Email</string>
+    <string name="btn_txt_signup">Get OTP</string>
+    <string name="txt_sign_phone">Phone number</string>
+    <string name="txt_popular_courses">Popular Courses</string>
+    <string name="txt_popular_recentupload">Recently Uploaded Courses</string>
+    <string name="msg_connect_internet">Connect Internet</string>
+    <string name="txt_malayalam">Malayalam</string>
+    <string name="hint_find_course">Find Course</string>
     <string name="no_documents">No Documents</string>
     <string name="no_documents_description">There are no downloadable documents right now.</string>
     <string name="no_orders">No transactions yet</string>
     <string name="no_orders_description">Your purchased orders will be reflected here.</string>
     <string name="no_posts">No Articles</string>
     <string name="no_discussions">No Discussions</string>
+    <string name="txt_splash_jointv"> a joint venture of </string>
+    <string name="txt_sign_gust">Try as guest</string>
+
 
     <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>
-
     <string name="loading">Loading...</string>
     <string name="please_wait">Please Wait...</string>
     <string name="ok">OK</string>
@@ -35,7 +48,6 @@
     <string name="try_after_sometime">Please try after sometime</string>
     <string name="something_went_wrong_please_try_after">Something went wrong, please try after sometime</string>
     <string name="edit_profile_error">Right now edit profile is unavailable. Try again later.</string>
-
     <!-- AuthenticatorActivity -->
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
@@ -93,7 +105,6 @@
     <string name="activate_incomplete_title">Activation problem</string>
     <string name="activate_incomplete_message">It seems that the activation key is invalid. Please check the url again.</string>
     <string name="login">Login</string>
-
     <string name="comments_title">Comments</string>
     <string name="write_a_comment">Write a comment...</string>
     <string name="load_previous_comments">Load previous comments</string>
@@ -105,7 +116,6 @@
     <string name="not_supported">Not supported</string>
     <string name="wrong_url">Url is Incorrect / Not supported.</string>
     <string name="browser_not_available">You need a browser app to this action.</string>
-
     <string name="my_exams">My Exams</string>
     <string name="store">Store</string>
     <string name="posts">Posts</string>
@@ -166,8 +176,10 @@
     <string name="close_drawer">Close Navigation Drawer</string>
     <string name="privacy_policy_dialogue">By signing in you acknowledge our  </string>
     <string name="privacy_policy"><a href='#'> Privacy Policy</a></string>
-
+    <string name="txt_sign_enterotp">Enter OTP</string>
+    <string name="txt_sign_dintreceive">Didn\'t receive OTP</string>
     <string name="terms_and_conditions">Terms And Conditions</string>
+    <string name="txt_sign_plaseotp">Please enter the OTP sent to your \n register mobile number.</string>
 
     <plurals name="notes_count">
         <item quantity="one">1 Doc</item>
@@ -181,4 +193,6 @@
         <item quantity="one">1 Exam</item>
         <item quantity="other">%d Exams</item>
     </plurals>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

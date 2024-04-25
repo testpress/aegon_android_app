@@ -27,7 +27,10 @@ import android.accounts.AccountManager
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -62,16 +65,23 @@ class LoginActivityV2: ActionBarAccountAuthenticatorActivity(), LoginNavigationI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window: Window = window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.setStatusBarColor(resources.getColor(android.R.color.holo_red_dark))
+        }
         Injector.inject(this)
         setContentView(R.layout.container_layout_without_toolbar)
         loadingDialog = LoadingDialog(this)
         accountManager = AccountManager.get(this)
         initializeViewModel()
         fetchInstituteSettings()
-        initializeGoogleSignIn()
+//        initializeGoogleSignIn()
     }
 
     private fun initializeViewModel() {
+
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return LoginViewModel(

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/testpress_color_primary"
+    android:background="@color/white"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,29 +18,136 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.4" />
 
-        <RelativeLayout
+        <LinearLayout
+            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:background="@color/testpress_white"
+            android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_signinlogo_42" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="54dp"
+                android:fontFamily="@font/gotham_bold"
+                android:minWidth="175dp"
+                android:text="@string/txt_sign_welcome"
+                android:textColor="@color/cb_heading_color"
+                android:textSize="25sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/gotham_book_1"
+                android:minWidth="207dp"
+                android:text="@string/txt_sign_signup"
+                android:textColor="@color/txt_para_colorcode"
+                android:textSize="16sp"></TextView>
+
+            <LinearLayout
+                android:layout_marginTop="34dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/signin_edt_back"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_phone_sign" />
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/countryCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:visibility="visible"
+                    app:ccpDialog_showCloseIcon="true"
+                    app:ccpDialog_showTitle="false"
+                    app:ccp_contentColor="#ddd"
+                    app:ccp_countryPreference="in"
+                    app:ccp_showFlag="false"
+                    app:ccp_showFullName="false"
+                    app:ccp_showNameCode="false"
+                    app:ccpDialog_showNameCode="false"
+                    app:ccpDialog_showFlag="false"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/inter"
+                    android:hint="Phone number"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:paddingEnd="10dp"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="#aaaaaa"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/verifyOtp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/txt_btn_back"
+                android:elevation="0dp"
+                android:fontFamily="@font/inter"
+                android:paddingVertical="15dp"
+                android:text="Get OTP"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:cornerRadius="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/gotham_book_1"
+                android:gravity="center"
+                android:minWidth="207dp"
+                android:text="@string/txt_sign_signup_other"
+                android:textColor="@color/txt_para_colorcode"
+                android:textSize="10sp"></TextView>
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="20dp"
-                android:gravity="top">
+                android:gravity="top"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
-                    android:src="@drawable/login_screen_image" />
+                    android:src="@drawable/login_screen_image"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -48,7 +155,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -75,7 +183,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,12 +196,12 @@
                     android:textColor="#4f4f4f" />
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/testpress_color_primary"
+            android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="30dp"
@@ -102,56 +211,6 @@
             app:layout_constraintTop_toBottomOf="@id/guideline">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/rounded_corner_with_transparent_bg"
-                android:gravity="center_vertical">
-
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/countryCode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    app:ccpDialog_showCloseIcon="true"
-                    app:ccp_contentColor="#ddd"
-                    app:ccp_countryPreference="in"
-                    app:ccp_showFlag="false"
-                    app:ccp_showNameCode="false" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/phoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:fontFamily="@font/inter"
-                    android:hint="Phone Number"
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:paddingEnd="10dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="#aaaaaa"
-                    android:textCursorDrawable="@null" />
-
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/verifyOtp"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/testpress_color_secondary"
-                android:elevation="0dp"
-                android:fontFamily="@font/inter"
-                android:paddingVertical="15dp"
-                android:text="Proceed"
-                android:textAllCaps="false"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                app:cornerRadius="8dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/userNameLogin"
@@ -167,14 +226,16 @@
                 android:textAllCaps="false"
                 android:textSize="14sp"
                 android:textStyle="normal"
+                android:visibility="gone"
                 app:backgroundTintMode="add"
                 app:cornerRadius="8dp" />
 
             <LinearLayout
+                android:id="@+id/socialLoginLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/socialLoginLayout"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -184,13 +245,15 @@
                     android:fontFamily="@font/inter"
                     android:gravity="center_horizontal"
                     android:text="Or continue with"
-                    android:textColor="#828282" />
+                    android:textColor="#828282"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageButton
                         android:id="@+id/googleSignIn"
@@ -199,7 +262,8 @@
                         android:layout_marginHorizontal="10dp"
                         android:background="@drawable/rounded_corner"
                         android:padding="8dp"
-                        android:src="@drawable/ic_google" />
+                        android:src="@drawable/ic_google"
+                        android:visibility="gone" />
 
                     <com.facebook.login.widget.LoginButton xmlns:facebook="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/facebookSignIn"
@@ -210,6 +274,7 @@
                         android:paddingTop="11dp"
                         android:paddingBottom="11dp"
                         android:scaleType="centerInside"
+                        android:visibility="gone"
                         facebook:com_facebook_login_text="" />
 
                 </LinearLayout>
@@ -220,25 +285,26 @@
             android:id="@+id/privacyContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/privacy_policy_dialogue"
-                android:textColor="@color/white"
-                android:gravity="center" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/phoneLayoutPrivacyPolicy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:textColor="@color/white"
-                android:text="@string/privacy_policy_text"/>
+                android:text="@string/privacy_policy_text"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
