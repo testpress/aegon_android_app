@@ -1,163 +1,122 @@
 {
-  "project_info": {
-    "project_number": "452024948803",
-    "project_id": "testpress-app-8",
-    "storage_bucket": "testpress-app-8.appspot.com"
-  },
   "client": [
     {
-      "client_info": {
-        "mobilesdk_app_id": "1:452024948803:android:1cf1533514682488075cf6",
-        "android_client_info": {
-          "package_name": "in.testpress.edukosh"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyATHw8i4UXzKddlZtXGSAUHAMDGb1UVDLo"
-        }
-      ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-              "client_type": 3
+              "client_type": 3,
+              "client_id": "764761056705-rcolaihbj1vr5hnmrgfupgm7c07mqje2.apps.googleusercontent.com"
+            },
+            {
+              "ios_info": {
+                "bundle_id": "com.rays.raysonline",
+                "app_store_id": "1526467951"
+              },
+              "client_type": 2,
+              "client_id": "764761056705-pcmg034sqq38kjied2mgdumsvsjpcvfi.apps.googleusercontent.com"
             }
           ]
+        }
+      },
+      "oauth_client": [
+        {
+          "client_type": 3,
+          "client_id": "764761056705-rcolaihbj1vr5hnmrgfupgm7c07mqje2.apps.googleusercontent.com"
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8VFx1Ygm2wruVxaeMYFAXaCf2NwAmsl4"
+        }
+      ],
+      "client_info": {
+        "mobilesdk_app_id": "1:764761056705:android:ca1a0894e1935c0886bb40",
+        "android_client_info": {
+          "package_name": "com.aegonlearning.app"
         }
       }
     },
     {
-      "client_info": {
-        "mobilesdk_app_id": "1:452024948803:android:ecb1870c93e94eee075cf6",
-        "android_client_info": {
-          "package_name": "in.testpress.hindalcoindustries"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyATHw8i4UXzKddlZtXGSAUHAMDGb1UVDLo"
-        }
-      ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-              "client_type": 3
+              "client_type": 3,
+              "client_id": "764761056705-rcolaihbj1vr5hnmrgfupgm7c07mqje2.apps.googleusercontent.com"
+            },
+            {
+              "ios_info": {
+                "bundle_id": "com.rays.raysonline",
+                "app_store_id": "1526467951"
+              },
+              "client_type": 2,
+              "client_id": "764761056705-pcmg034sqq38kjied2mgdumsvsjpcvfi.apps.googleusercontent.com"
             }
           ]
+        }
+      },
+      "oauth_client": [
+        {
+          "client_type": 3,
+          "client_id": "764761056705-rcolaihbj1vr5hnmrgfupgm7c07mqje2.apps.googleusercontent.com"
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8VFx1Ygm2wruVxaeMYFAXaCf2NwAmsl4"
+        }
+      ],
+      "client_info": {
+        "mobilesdk_app_id": "1:764761056705:android:53add12d9b43460386bb40",
+        "android_client_info": {
+          "package_name": "com.rays"
         }
       }
     },
     {
-      "client_info": {
-        "mobilesdk_app_id": "1:452024948803:android:67951aa3dcd3b217075cf6",
-        "android_client_info": {
-          "package_name": "in.testpress.lalsacademy"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyATHw8i4UXzKddlZtXGSAUHAMDGb1UVDLo"
-        }
-      ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-              "client_type": 3
+              "client_type": 3,
+              "client_id": "764761056705-rcolaihbj1vr5hnmrgfupgm7c07mqje2.apps.googleusercontent.com"
+            },
+            {
+              "ios_info": {
+                "bundle_id": "com.rays.raysonline",
+                "app_store_id": "1526467951"
+              },
+              "client_type": 2,
+              "client_id": "764761056705-pcmg034sqq38kjied2mgdumsvsjpcvfi.apps.googleusercontent.com"
             }
           ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:452024948803:android:5617a508f8014a4d075cf6",
-        "android_client_info": {
-          "package_name": "in.testpress.sandbox"
         }
       },
       "oauth_client": [
         {
-          "client_id": "452024948803-8c329ok1sv3ethl1h83alnv0brgh308k.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "in.testpress.sandbox",
-            "certificate_hash": "2398cbcb627f2e5e1945cdf127d5432f74d99ae4"
-          }
-        },
-        {
-          "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-          "client_type": 3
+          "client_type": 3,
+          "client_id": "764761056705-rcolaihbj1vr5hnmrgfupgm7c07mqje2.apps.googleusercontent.com"
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyATHw8i4UXzKddlZtXGSAUHAMDGb1UVDLo"
+          "current_key": "AIzaSyB8VFx1Ygm2wruVxaeMYFAXaCf2NwAmsl4"
         }
       ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
       "client_info": {
-        "mobilesdk_app_id": "1:452024948803:android:d4a3b648675d766e075cf6",
+        "mobilesdk_app_id": "1:764761056705:android:09e9507add8f02e186bb40",
         "android_client_info": {
-          "package_name": "in.testpress.sashwat"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyATHw8i4UXzKddlZtXGSAUHAMDGb1UVDLo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "452024948803-sa3dp91nlmmsccjc1t73f77vtif6047q.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "package_name": "com.rays.exams"
         }
       }
     }
   ],
-  "configuration_version": "1"
+  "configuration_version": "1",
+  "project_info": {
+    "storage_bucket": "rays-online.appspot.com",
+    "project_id": "rays-online",
+    "firebase_url": "https://rays-online.firebaseio.com",
+    "project_number": "764761056705"
+  }
 }
