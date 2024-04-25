@@ -55,7 +55,7 @@
     <color name="list_divider">#9D9D9D</color>
 
     <!-- Color of the mime-type icons inside the editor. 50% black. -->
-    <!--    <color name="editor_icon_color">#7f7f7f</color>-->
+<!--    <color name="editor_icon_color">#7f7f7f</color>-->
     <color name="editor_icon_color">#E65C6C</color>
 
     <color name="testpress_actionbar_background">@color/primary</color>
@@ -79,11 +79,11 @@
 
     <color name="material_green">#08AE9E</color>
 
-    <!--    <color name="grey_icon">#acacac</color>-->
+<!--    <color name="grey_icon">#acacac</color>-->
     <color name="grey_icon">#E65C6C</color>
 
     <color name="testpress_vote_indicator">#298cdd</color>
-    <!--    <color name="light_grey">#efefef</color>-->
+<!--    <color name="light_grey">#efefef</color>-->
     <color name="light_grey">#E65C6C</color>
     <color name="trackColor">#E65C6C</color>
     <color name="indicatorColor">#EEEEEE</color>

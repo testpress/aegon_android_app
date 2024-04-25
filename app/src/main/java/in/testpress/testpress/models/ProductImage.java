@@ -27,7 +27,7 @@ public class ProductImage implements Parcelable{
         parcel.writeString(small);
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+    public static final Creator CREATOR = new Creator() {
         public ProductImage createFromParcel(Parcel in) {
             return new ProductImage(in);
         }

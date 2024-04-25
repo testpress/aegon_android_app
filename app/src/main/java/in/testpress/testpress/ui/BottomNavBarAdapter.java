@@ -66,13 +66,13 @@ public class BottomNavBarAdapter extends BaseAdapter {
         }
 
         if (selectedPosition == position) {
-            imageView.setColorFilter(ContextCompat.getColor(mContext, R.color.primary));
-            menuTitle.setTextColor(ContextCompat.getColor(mContext, R.color.primary));
+            imageView.setColorFilter(ContextCompat.getColor(mContext, android.R.color.white));
+            menuTitle.setTextColor(ContextCompat.getColor(mContext, android.R.color.white));
         } else {
             imageView.setColorFilter(ContextCompat.getColor(mContext,
-                    R.color.bottom_bar_unselected_item));
+                    android.R.color.white));
             menuTitle.setTextColor(ContextCompat.getColor(mContext,
-                    R.color.bottom_bar_unselected_item_text));
+                    android.R.color.white));
         }
         menuTitle.setTypeface(TestpressSdk.getRubikRegularFont(mContext));
         return convertView;

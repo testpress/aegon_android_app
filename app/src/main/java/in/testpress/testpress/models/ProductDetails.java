@@ -45,7 +45,7 @@ public class ProductDetails extends Product implements Parcelable {
         parcel.writeTypedList(notes);
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+    public static final Creator CREATOR = new Creator() {
         public ProductDetails createFromParcel(Parcel in) {
             return new ProductDetails(in);
         }

@@ -18,61 +18,86 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
 
-    <uses-feature android:name="android.hardware.telephony" android:required="false" />
-<!--    <uses-sdk tools:overrideLibrary="us.zoom.androidlib,us.zoom.videomeetings"/>-->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <application
         android:name=".TestpressApplication"
         android:allowBackup="true"
+        android:exported="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
         android:preserveLegacyExternalStorage="true"
-        tools:replace="android:theme,android:allowBackup"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Testpress.Dark"
-        android:exported="true"
-        >
-        <meta-data android:name="io.sentry.auto-init" android:value="false" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_notification" />
-        <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/testpress_color_primary" />
+        tools:replace="android:theme,android:allowBackup">
+        <activity
+            android:name=".ui.CoureContentActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <meta-data
+            android:name="io.sentry.auto-init"
+            android:value="false" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/testpress_color_primary" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".ui.SplashScreenActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
             android:exported="true"
-            >
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="@string/host_url"/>
-                <data android:scheme="http" android:host="@string/host_url" />
-                <data android:scheme="https" android:host="@string/white_labeled_host_url"/>
-                <data android:scheme="http" android:host="@string/white_labeled_host_url"/>
+
+                <data
+                    android:host="@string/host_url"
+                    android:scheme="https" />
+                <data
+                    android:host="@string/host_url"
+                    android:scheme="http" />
+                <data
+                    android:host="@string/white_labeled_host_url"
+                    android:scheme="https" />
+                <data
+                    android:host="@string/white_labeled_host_url"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme"
             android:name=".ui.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
 
         <service
             android:name=".authenticator.AccountAuthenticatorService"
-            android:process=":auth"
             android:exported="true"
-            >
+            android:process=":auth">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -80,135 +105,117 @@
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
-        </service>
-
-        <!-- [START gcm_listener] -->
-        <service 
-            android:name=".core.TestpressGCMListenerService" 
-            android:exported="true"
-            >
+        </service> <!-- [START gcm_listener] -->
+        <service
+            android:name=".core.TestpressGCMListenerService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-        <!-- [END gcm_listener] -->
-
+        </service> <!-- [END gcm_listener] -->
         <activity
             android:name=".authenticator.LoginActivity"
+            android:excludeFromRecents="true"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden"
-            android:excludeFromRecents="true" />
-
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".authenticator.LoginActivityV2"
+            android:excludeFromRecents="true"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden"
-            android:excludeFromRecents="true">
+            android:windowSoftInputMode="stateHidden">
 
             <!--
                 No intent-filter here! This activity is only ever launched by
                 someone who explicitly knows the class name
             -->
         </activity>
-
         <activity
             android:name=".ui.PostActivity"
-            android:theme="@style/AppTheme"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Article"
-            android:windowSoftInputMode="stateHidden"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
-
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.ForumActivity"
-            android:theme="@style/AppTheme"
-            android:label="Article"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
-
+            android:label="Article"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.CreateForumActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Create Forum Post"
             android:theme="@style/AppTheme"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
-
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".authenticator.RegisterActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Register" />
+            android:label="Register"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".authenticator.CodeVerificationActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Verify" />
+            android:label="Verify"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.DoubtsActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Doubts" />
-
+            android:label="Doubts"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.DocumentsListActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Documents" />
-
+            android:label="Documents"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.PostsListActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Articles" />
-
+            android:label="Articles"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.DisscussionActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Discussions" />
-
+            android:label="Discussions"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.OrdersListActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Orders" />
-
+            android:label="Orders"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.ProfileDetailsActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboard|screenSize"
-            android:label="Profile Details" />
+            android:label="Profile Details"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.ProfilePhotoActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboard|screenSize"
-            android:label="Profile Photo" />
-
+            android:label="Profile Photo"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".authenticator.ResetPasswordActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboard|screenSize"
-            android:label="@string/title_activity_reset_password_verification" />
-
+            android:label="@string/title_activity_reset_password_verification"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.DrupalRssListActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboard|screenSize"
-            android:label="@string/rss_posts" />
-
+            android:label="@string/rss_posts"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.RssFeedDetailActivity"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboard|screenSize"
-            android:label="@string/rss_posts" />
-
+            android:label="@string/rss_posts"
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
@@ -227,18 +234,17 @@
 
         <activity
             android:name=".ui.WebViewActivity"
-            android:theme="@style/TestpressWebViewTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Web View" />
-
-        <activity android:name=".ui.TermsAndConditionActivity"
-            android:theme="@style/AppTheme"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-
-        <activity android:name=".ui.AccountDeleteActivity"
-            android:theme="@style/AppTheme"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-
+            android:label="Web View"
+            android:theme="@style/TestpressWebViewTheme" />
+        <activity
+            android:name=".ui.TermsAndConditionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.AccountDeleteActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
