@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
-
-
 import javax.inject.Inject;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import in.testpress.core.TestpressSdk;
@@ -23,7 +23,6 @@ import in.testpress.testpress.TestpressServiceProvider;
 import in.testpress.testpress.ui.utils.DeeplinkHandler;
 import in.testpress.testpress.util.UpdateAppDialogManager;
 import in.testpress.util.Assert;
-
 import static in.testpress.core.TestpressSdk.ACTION_PRESSED_HOME;
 import static in.testpress.core.TestpressSdk.COURSE_CONTENT_DETAIL_REQUEST_CODE;
 import static in.testpress.core.TestpressSdk.COURSE_CONTENT_LIST_REQUEST_CODE;
@@ -47,6 +46,12 @@ public class SplashScreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.txt_btn_back));
+        }
         Injector.inject(this);
         ButterKnife.inject(this);
         UpdateAppDialogManager.monitor(this);
