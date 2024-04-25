@@ -14,10 +14,11 @@
         <item name="android:textCursorDrawable">@drawable/edit_text_cursor</item>
         <item name="android:textSize">20sp</item>
     </style>
+
     <style name="ZMEditText" parent="android:Widget.EditText">
         <item name="android:textColorHint">@color/testpress_gray_light</item>
         <item name="android:textColor">@color/testpress_black</item>
-<!--        <item name="android:background">@drawable/zm_edit_text</item>-->
+        <!--        <item name="android:background">@drawable/zm_edit_text</item>-->
     </style>
 
     <style name="ShadowText">
@@ -52,7 +53,7 @@
     </style>
 
     <style name="ActivityDialog" parent="android:style/Theme.Dialog">
-    <item name="android:windowBackground">@drawable/dialog_background</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
     </style>
 
     <style name="Widget.Testpress.HeaderBar.Spinner.Base" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
@@ -87,7 +88,7 @@
     <style name="EditKindIconStyle">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
-        <item name="android:tint">@color/editor_icon_color</item>
+        <item name="android:tint">@color/cb_errorRed</item>
         <item name="android:layout_marginLeft">16dp</item>
         <!-- We want 32dp of padding between these icon's and EditText's. Since EditText's have
             4dp of starting padding built in, we set this as 28dp. -->
@@ -182,6 +183,28 @@
     <style name="TabInputError" parent="InputError">
         <item name="android:layout_width">@dimen/tab_input_width</item>
         <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Avatar" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">15%</item>
+        <item name="cornerSizeTopLeft">15%</item>
+    </style>
+    <style name="CustomCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>
+    </style>
+    <style name="ShapeAppearanceOverlay_card_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">15%</item>
+        <item name="cornerSizeBottomLeft">15%</item>
+    </style>
+    <style name="NavigationViewStyle" parent="Widget.Design.NavigationView">
+        <!-- Define your icon tint color here -->
+        <item name="android:tint">@color/cb_errorRed</item>
+    </style>
+    <style name="roundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
 </resources>

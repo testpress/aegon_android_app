@@ -1,4 +1,5 @@
 package in.testpress.testpress.ui;
+
 import in.testpress.course.ui.CourseListFragment;
 
 import android.Manifest;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
@@ -23,21 +25,30 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 
 import android.os.Handler;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.fragment.app.Fragment;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,6 +65,7 @@ import in.testpress.course.repository.VideoWatchDataRepository;
 import in.testpress.database.OfflineVideoDao;
 import in.testpress.database.TestpressDatabase;
 import in.testpress.exam.ui.view.NonSwipeableViewPager;
+import in.testpress.testpress.ApiServiceFactory;
 import in.testpress.testpress.BuildConfig;
 import in.testpress.testpress.Injector;
 import in.testpress.testpress.R;
@@ -62,12 +74,15 @@ import in.testpress.testpress.TestpressServiceProvider;
 import in.testpress.testpress.authenticator.LogoutService;
 import in.testpress.testpress.core.Constants;
 import in.testpress.testpress.core.TestpressService;
+import in.testpress.testpress.fragments.DashboardNewFrag;
+import in.testpress.testpress.fragments.StudyFrag;
 import in.testpress.testpress.models.CheckPermission;
 import in.testpress.testpress.models.DaoSession;
 import in.testpress.testpress.models.InstituteSettings;
 import in.testpress.testpress.models.InstituteSettingsDao;
 import in.testpress.testpress.models.SsoUrl;
 import in.testpress.testpress.models.Update;
+import in.testpress.testpress.models.UserDetailsModel;
 import in.testpress.testpress.ui.fragments.DashboardFragment;
 import in.testpress.testpress.ui.fragments.DiscussionFragmentv2;
 import in.testpress.testpress.ui.utils.HandleMainMenu;
@@ -78,7 +93,12 @@ import in.testpress.testpress.util.Strings;
 import in.testpress.testpress.util.UIUtils;
 import in.testpress.testpress.util.UpdateAppDialogManager;
 import in.testpress.ui.fragments.DiscussionFragment;
+import in.testpress.util.ImageUtils;
 import io.sentry.android.core.SentryAndroid;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static in.testpress.testpress.BuildConfig.ALLOW_ANONYMOUS_USER;
 import static in.testpress.testpress.BuildConfig.APPLICATION_ID;
@@ -92,25 +112,32 @@ import static in.testpress.store.TestpressStore.STORE_REQUEST_CODE;
 public class MainActivity extends TestpressFragmentActivity {
 
     private static final String SELECTED_ITEM = "selectedItem";
-
-    @Inject protected TestpressServiceProvider serviceProvider;
-    @Inject protected TestpressService testpressService;
-    @Inject protected LogoutService logoutService;
-    @InjectView(R.id.empty_container) LinearLayout emptyView;
-    @InjectView(R.id.empty_title) TextView emptyTitleView;
-    @InjectView(R.id.empty_description) TextView emptyDescView;
-    @InjectView(R.id.retry_button) Button retryButton;
-
-    @InjectView(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
-    @InjectView(R.id.progressbar) RelativeLayout progressBarLayout;
+    @Inject
+    protected TestpressServiceProvider serviceProvider;
+    @Inject
+    protected TestpressService testpressService;
+    @Inject
+    protected LogoutService logoutService;
+    @InjectView(R.id.empty_container)
+    LinearLayout emptyView;
+    @InjectView(R.id.empty_title)
+    TextView emptyTitleView;
+    @InjectView(R.id.empty_description)
+    TextView emptyDescView;
+    @InjectView(R.id.retry_button)
+    Button retryButton;
+    @InjectView(R.id.coordinator_layout)
+    CoordinatorLayout coordinatorLayout;
+    @InjectView(R.id.progressbar)
+    RelativeLayout progressBarLayout;
     @InjectView(R.id.viewpager)
     NonSwipeableViewPager viewPager;
-    @InjectView(R.id.grid) GridView grid;
+    @InjectView(R.id.grid)
+    GridView grid;
     @InjectView(R.id.drawer_layout)
     DrawerLayout drawer;
     @InjectView(R.id.navigation_view)
     NavigationView navigationView;
-
     private ActionBarDrawerToggle drawerToggle;
     private int mSelectedItem;
     private BottomNavBarAdapter mBottomBarAdapter;
@@ -124,14 +151,67 @@ public class MainActivity extends TestpressFragmentActivity {
     private boolean isInitScreenCalledOnce;
     private CourseListFragment courseListFragment;
     int touchCountToEnableScreenShot = 0;
+    androidx.appcompat.widget.Toolbar toolbar;
+    private LinearLayout lay_let_top;
+    private ImageView img_v_nav, profile_icon;
+    ApiServiceFactory.Apiservice apiservice = ApiServiceFactory.getApiservie();
+    ShimmerFrameLayout shimmer_view_container_main;
+    TextView txt_username;
+    private String firstname, lastname;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         Injector.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.txt_btn_back));
+        }
+        toolbar = findViewById(R.id.toolbar_actionbar);
+        txt_username = findViewById(R.id.txt_username);
+        shimmer_view_container_main = findViewById(R.id.shimmer_view_container_main);
+        shimmer_view_container_main.setVisibility(View.VISIBLE);
+        showLoading();
         ButterKnife.inject(this);
+        lay_let_top = findViewById(R.id.lay_let_top);
+        img_v_nav = findViewById(R.id.img_v_nav);
+        profile_icon = findViewById(R.id.profile_icon);
+        lay_let_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+        img_v_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+        profile_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
 
+            }
+        });
+        getUserDetails();
+        setSupportActionBar(toolbar);
         if (savedInstanceState != null) {
             mSelectedItem = savedInstanceState.getInt(SELECTED_ITEM);
         }
@@ -142,7 +222,6 @@ public class MainActivity extends TestpressFragmentActivity {
         List<InstituteSettings> instituteSettingsList = instituteSettingsDao.queryBuilder()
                 .where(InstituteSettingsDao.Properties.BaseUrl.eq(BASE_URL))
                 .list();
-
         if (instituteSettingsList.size() > 0) {
             onFinishFetchingInstituteSettings(instituteSettingsList.get(0));
             checkUpdate();
@@ -150,6 +229,69 @@ public class MainActivity extends TestpressFragmentActivity {
             checkUpdate();
         }
         setupEasterEgg();
+        hideShimmer();
+        shimmer_view_container_main.setVisibility(View.GONE);
+//        setselctedMenuBackground(R.id.homepage);
+    }
+
+    private void showLoading() {
+        shimmer_view_container_main.setVisibility(View.VISIBLE);
+        shimmer_view_container_main.startShimmer();
+    }
+
+    private void hideShimmer() {
+        shimmer_view_container_main.stopShimmer();
+        shimmer_view_container_main.setVisibility(View.GONE);
+    }
+
+    private void getUserDetails() {
+        try {
+            String JsonToken = null;
+            JsonToken = "JWT " + TestpressSdk.getTestpressSession(this).getToken();
+            if (ApiServiceFactory.isNetworkAvailable(this)) {
+                apiservice.getUserDetails(JsonToken, "").clone().enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            String result = response.body().string().toString();
+                            Gson gson = new Gson();
+                            UserDetailsModel userDetailsModel = gson.fromJson(result, UserDetailsModel.class);
+                            setActionbarProfile(userDetailsModel);
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            } else {
+                Toast.makeText(this, getString(R.string.msg_connect_internet), Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void setActionbarProfile(UserDetailsModel userDetailsModel) {
+        ImageLoader imageLoader = ImageUtils.initImageLoader(this);
+        DisplayImageOptions options = ImageUtils.getPlaceholdersOption();
+        imageLoader.displayImage(userDetailsModel.getSmallImage(), profile_icon, options);
+        firstname = userDetailsModel.getFirstName();
+        lastname = userDetailsModel.getLastName();
+        String name = "";
+        if (!firstname.isEmpty()) {
+            if (!lastname.isEmpty()) {
+                name = firstname + " " + lastname;
+            }
+        }
+        if (!firstname.isEmpty())
+            txt_username.setText(name);
+        else {
+            txt_username.setText(getResources().getString(R.string.txt_hellow_student));
+        }
     }
 
     @Override
@@ -170,10 +312,10 @@ public class MainActivity extends TestpressFragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (isProductPurchaseSuccessful(requestCode, resultCode)) {
             courseListFragment.onActivityResult(requestCode, resultCode, data);
-         }
+        }
     }
 
-    private boolean isProductPurchaseSuccessful(int requestCode, int resultCode){
+    private boolean isProductPurchaseSuccessful(int requestCode, int resultCode) {
         return requestCode == STORE_REQUEST_CODE && resultCode == RESULT_OK;
     }
 
@@ -184,8 +326,6 @@ public class MainActivity extends TestpressFragmentActivity {
         button.setAlpha(0);
         rateUsButton.setActionView(button);
         rateUsButton.getActionView().setVisibility(View.GONE);
-
-
         findViewById(R.id.version_info).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -219,38 +359,43 @@ public class MainActivity extends TestpressFragmentActivity {
     }
 
     private void setUpNavigationDrawer() {
-        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(false);
+//        drawerToggle = setupDrawerToggle();
+//        drawerToggle.setDrawerIndicatorEnabled(false);
+//        drawerToggle.syncState();
+//        drawer.addDrawerListener(drawerToggle);
+//        setupDrawerContent(navigationView);
+        getSupportActionBar().setHomeButtonEnabled(false);
         drawerToggle = setupDrawerToggle();
-        drawerToggle.setDrawerIndicatorEnabled(true);
-        drawerToggle.setHomeAsUpIndicator(R.drawable.ic_menu);
+        drawerToggle.setDrawerIndicatorEnabled(false);
+//        drawerToggle.setHomeAsUpIndicator(R.drawable.ic_menu);
         drawerToggle.syncState();
-
         drawer.addDrawerListener(drawerToggle);
         setupDrawerContent(navigationView);
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(
-                this, drawer, getActionBarToolbar(),
-                R.string.open_drawer,  R.string.close_drawer
+                this, drawer, toolbar,
+                R.string.open_drawer, R.string.close_drawer
         );
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        hideMenuItemsForUnauthenticatedUser(navigationView.getMenu());
+//        hideMenuItemsForUnauthenticatedUser(navigationView.getMenu());
         showShareButtonBasedOnInstituteSettings(navigationView.getMenu());
         showRateUsButtonBasedOnInstituteSettings(navigationView.getMenu());
         showDiscussionsButtonBasedOnInstituteSettings(navigationView.getMenu());
         updateMenuItemNames(navigationView.getMenu());
         final HandleMainMenu handleMainMenu = new HandleMainMenu(MainActivity.this, serviceProvider);
         navigationView.setNavigationItemSelectedListener(
-            new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(MenuItem menuItem) {
-                    handleMainMenu.handleMenuOptionClick(menuItem.getItemId());
-                    return true;
-                }
-        });
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        handleMainMenu.handleMenuOptionClick(menuItem.getItemId());
+                        return true;
+                    }
+                });
     }
 
     private void hideMenuItemsForUnauthenticatedUser(Menu menu) {
@@ -273,19 +418,19 @@ public class MainActivity extends TestpressFragmentActivity {
             menu.findItem(R.id.profile).setVisible(true);
             menu.findItem(R.id.bookmarks).setVisible(true);
             menu.findItem(R.id.login).setVisible(false);
-            if (mInstituteSettings != null){
+            if (mInstituteSettings != null) {
                 menu.findItem(R.id.student_report).setVisible(mInstituteSettings.isStudentReportEnabled());
             }
         }
     }
 
-    private void showShareButtonBasedOnInstituteSettings(Menu menu){
+    private void showShareButtonBasedOnInstituteSettings(Menu menu) {
         if (mInstituteSettings != null) {
             menu.findItem(R.id.share).setVisible(Boolean.TRUE.equals(mInstituteSettings.getShowShareButton()));
         }
     }
 
-    private void showRateUsButtonBasedOnInstituteSettings(Menu menu){
+    private void showRateUsButtonBasedOnInstituteSettings(Menu menu) {
         if (mInstituteSettings != null) {
             menu.findItem(R.id.rate_us).setVisible(Boolean.TRUE.equals(mInstituteSettings.getShowShareButton()));
         }
@@ -361,18 +506,17 @@ public class MainActivity extends TestpressFragmentActivity {
             apiAvailability.makeGooglePlayServicesAvailable(this);
             CommonUtils.registerDevice(MainActivity.this, testpressService, serviceProvider);
         }
-
         if (isUserAuthenticated && mInstituteSettings.getShowGameFrontend()) {
-            addMenuItem(R.string.dashboard, R.drawable.ic_dashboard, new DashboardFragment());
+            addMenuItem(R.string.dashboard, R.drawable.ic_dashboard, new DashboardNewFrag());
         } else {
             addMenuItem(R.string.dashboard, R.drawable.profile_default, new MainMenuFragment());
         }
         // Show courses list if game front end is enabled, otherwise hide bottom bar
         if (isUserAuthenticated && mInstituteSettings.getShowGameFrontend()) {
             //noinspection ConstantConditions
-            addMenuItem(R.string.learn, R.drawable.learn,
-                    courseListFragment = TestpressCourse.getCoursesListFragment(this, TestpressSdk.getTestpressSession(this)));
-
+//            addMenuItem(R.string.learn, R.drawable.learn,
+//                    courseListFragment = TestpressCourse.getCoursesListFragment(this, TestpressSdk.getTestpressSession(this)));
+            addMenuItem(R.string.learn, R.drawable.learn, new StudyFrag());
             if (mInstituteSettings.getCoursesEnableGamification()) {
                 //noinspection ConstantConditions
                 addMenuItem(R.string.testpress_leaderboard, R.drawable.leaderboard,
@@ -394,6 +538,7 @@ public class MainActivity extends TestpressFragmentActivity {
                 viewPager.setCurrentItem(position);
             }
         });
+        grid.setBackgroundColor(getColor(R.color.txt_btn_back));
         BottomBarPagerAdapter mPagerAdapter = new BottomBarPagerAdapter(this, mMenuItemFragments);
         viewPager.setAdapter(mPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -423,14 +568,56 @@ public class MainActivity extends TestpressFragmentActivity {
     }
 
     private void onItemSelected(int position) {
+//        if (firstname != null) {
+//            firstname = "";
+//            if (lastname != null) {
+//                lastname = "";
+//            }
+//        }
         mSelectedItem = position;
         mBottomBarAdapter.setSelectedPosition(position);
         mBottomBarAdapter.notifyDataSetChanged();
-
         if (!UIUtils.getMenuItemName(mMenuItemTitleIds.get(position), mInstituteSettings).isEmpty()) {
-            updateToolbarText(UIUtils.getMenuItemName(mMenuItemTitleIds.get(position), mInstituteSettings));
+            String title = getString(mMenuItemTitleIds.get(position));
+            if (title.equalsIgnoreCase("Dashboard")) {
+                String name = "";
+                if (firstname != null)
+                    if (!firstname.isEmpty()) {
+                        if (!lastname.isEmpty()) {
+                            name = firstname + " " + lastname;
+                        }
+                    }
+                if (firstname != null)
+                    if (!firstname.isEmpty())
+                        txt_username.setText(name);
+                    else {
+                        txt_username.setText(getResources().getString(R.string.txt_hellow_student));
+                    }
+                updateToolbarText(UIUtils.getMenuItemName(mMenuItemTitleIds.get(position), mInstituteSettings));
+            } else {
+                txt_username.setText(title);
+                updateToolbarText(UIUtils.getMenuItemName(mMenuItemTitleIds.get(position), mInstituteSettings));
+            }
         } else {
-            updateToolbarText(getString(mMenuItemTitleIds.get(position)));
+
+//            String title = getString(mMenuItemTitleIds.get(position));
+//            if (title.equalsIgnoreCase("Dashboard")) {
+//                if (firstname != null)
+//                    if (!firstname.isEmpty()) {
+//                        if (!lastname.isEmpty()) {
+//                            firstname += " " + lastname;
+//                        }
+//                    }
+//                if (firstname != null)
+//                    if (!firstname.isEmpty())
+//                        txt_username.setText(firstname);
+//                    else {
+//                        txt_username.setText(getResources().getString(R.string.txt_hellow_student));
+//                    }
+//            } else {
+//                txt_username.setText(title);
+//            }
+//            updateToolbarText(title);
         }
     }
 
@@ -481,7 +668,6 @@ public class MainActivity extends TestpressFragmentActivity {
             protected void onSuccess(InstituteSettings instituteSettings) {
                 instituteSettings.setBaseUrl(BASE_URL);
                 instituteSettingsDao.insertOrReplace(instituteSettings);
-
                 if (mInstituteSettings == null) {
                     onFinishFetchingInstituteSettings(instituteSettings);
                 } else if (mInstituteSettings.getForceStudentData()) {
@@ -508,22 +694,21 @@ public class MainActivity extends TestpressFragmentActivity {
             // Show login screen if user not logged in else update institute settings in TestpressSDK
             updateTestpressSession();
         } else {
-            if(isVerandaLearningApp() && !hasAgreedTermsAndConditions()){
+            if (isVerandaLearningApp() && !hasAgreedTermsAndConditions()) {
                 startActivity(TermsAndConditionActivity.Companion.createIntent(MainActivity.this));
             }
             initScreen();
             showMainActivityContents();
-
             if (isUserAuthenticated) {
                 updateTestpressSession();
                 syncVideoWatchedData();
-
                 if (mInstituteSettings.getForceStudentData()) {
                     checkForForceUserData();
                 }
             }
         }
     }
+
 
     private void syncVideoWatchedData() {
         OfflineVideoDao offlineVideoDao = TestpressDatabase.Companion.invoke(this).offlineVideoDao();
@@ -549,7 +734,7 @@ public class MainActivity extends TestpressFragmentActivity {
             @Override
             protected void onSuccess(final Update update) {
                 progressBarLayout.setVisibility(View.GONE);
-                if(update.getUpdateRequired()) {
+                if (update.getUpdateRequired()) {
                     if (update.getForce()) {
                         UpdateAppDialogManager
                                 .showDialog(MainActivity.this, true, update.getMessage());
@@ -582,6 +767,8 @@ public class MainActivity extends TestpressFragmentActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
+                                showLoading();
+                                shimmer_view_container_main.setVisibility(View.VISIBLE);
                                 setTermsAndConditionNotAgreed();
                                 serviceProvider.logout(MainActivity.this, testpressService,
                                         serviceProvider, logoutService);
@@ -711,13 +898,12 @@ public class MainActivity extends TestpressFragmentActivity {
         }.execute();
     }
 
-    public void hideMainActivityContents(){
-        grid.setVisibility(View.GONE);
+    public void hideMainActivityContents() {
+        grid.setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);
     }
 
-    public void showMainActivityContents(){
-
+    public void showMainActivityContents() {
         if (isInitScreenCalledOnce) {
             viewPager.setVisibility(View.VISIBLE);
             grid.setVisibility(View.VISIBLE);
@@ -726,15 +912,15 @@ public class MainActivity extends TestpressFragmentActivity {
 
     private void askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},1000);
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1000);
         }
     }
 
-    private Boolean isVerandaLearningApp(){
+    private Boolean isVerandaLearningApp() {
         return getApplicationContext().getPackageName().equals("com.verandalearning");
     }
 
-    private Boolean hasAgreedTermsAndConditions(){
+    private Boolean hasAgreedTermsAndConditions() {
         return getSharedPreferences(TERMS_AND_CONDITIONS, Context.MODE_PRIVATE).getBoolean(TERMS_AND_CONDITIONS, false);
     }
 
@@ -743,5 +929,20 @@ public class MainActivity extends TestpressFragmentActivity {
         editor.putBoolean(TERMS_AND_CONDITIONS, false);
         editor.apply();
     }
+
+    public void setselctedMenuBackground(int homepage) {
+//        MenuItem initialSelectedItem = navigationView.getMenu().findItem(R.id.menu_item1);
+//        selectItem(initialSelectedItem);
+//        MenuItem menuItem = null;
+//        switch (homepage){
+//            case R.id.homepage:
+//                menuItem=navigationView.getMenu().findItem(R.id.homepage);
+//                break;
+//        }
+//            ViewCompat.setBackground(menuItem.getActionView(), null);
+//
+//        }
+    }
+
 
 }

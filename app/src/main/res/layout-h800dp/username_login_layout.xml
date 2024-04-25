@@ -31,6 +31,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -46,12 +47,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter"
@@ -61,6 +64,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter"
@@ -72,6 +76,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -171,6 +176,7 @@
 
 
             <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
                 android:id="@+id/forgotPassword"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="match_parent"
@@ -222,12 +228,14 @@
                 app:cornerRadius="8dp" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/socialLoginLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -238,12 +246,14 @@
                     android:textColor="#828282" />
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <ImageButton
+                        android:visibility="gone"
                         android:id="@+id/googleSignIn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -254,6 +264,7 @@
 
                     <com.facebook.login.widget.LoginButton xmlns:facebook="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/facebookSignIn"
+                        android:visibility="gone"
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="5dp"

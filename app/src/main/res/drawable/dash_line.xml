@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="line">
+
+    <!-- Define the thickness and color of the line -->
+    <stroke
+        android:width="1dp"
+        android:color="@color/sign_in_edt_back" />
+
+    <!-- Define the dash pattern -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/sign_in_edt_back"
+        android:dashWidth="4dp"
+        android:dashGap="4dp" />
+</shape>

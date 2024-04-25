@@ -165,7 +165,7 @@
             android:layout_marginTop="37dp"
             android:fontFamily="@font/gotham_book_1"
             android:gravity="center"
-            android:layout_gravity="center"
+android:layout_gravity="center"
             android:minWidth="207dp"
             android:text="@string/txt_sign_dintreceive"
             android:textColor="@color/txt_para_colorcode"
