@@ -454,6 +454,10 @@ public class MainActivity extends TestpressFragmentActivity {
         }
     }
 
+
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -464,6 +468,10 @@ public class MainActivity extends TestpressFragmentActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 
     private void updateTestpressSession() {
         new SafeAsyncTask<Boolean>() {
