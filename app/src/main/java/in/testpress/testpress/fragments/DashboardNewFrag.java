@@ -67,7 +67,9 @@ public class DashboardNewFrag extends Fragment {
     private ImageView img_bannertop, img_bannerbottom;
 
     ShimmerFrameLayout shimmer_view_container;
+
     TextView txt_popularcourses, txt_recentcourses;
+
     private int currentPage;
     private String next;
     private String nextUrl;
